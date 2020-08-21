@@ -1,23 +1,31 @@
-#
-# systemtap script to probe the os
-# Date Aug 2020
-#
+# 
+# script: probing script
+# date: Aug 2020
+# install : run stp installation script ./stpinsall.sh  
+# execute : stap begin.stp -v
+# 
+
+global count
 
 probe begin
 	{
 		printf ("Begin stript\n")
 	}
 
-# print every 3 sec
+# printing timer statement every 3 sec
 
 probe timer.s(3)
-	{
-		printf ("Hello World\n")
-	}
+        {
+		if (count == 3)
+			exit ()
+		else
+			print("\ncounter ~> ", count)
+			count ++
+        }
 
 probe end
-	{
-		printf ("End script\n")
-		exit ()
-	
-	}
+        {
+                printf ("\nEnd script")
+        }
+
+
