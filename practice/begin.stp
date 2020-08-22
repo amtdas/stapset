@@ -1,7 +1,7 @@
 # 
 # script: probing script
 # date: Aug 2020
-# install : run stp installation script ./stpinsall.sh  
+# dependency: run stp installation script ./stpinstall.sh 
 # execute : stap begin.stp -v
 # 
 
@@ -28,4 +28,4 @@ probe end
                 printf ("\nEnd script")
         }
 
-
+#EOF
