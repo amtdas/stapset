@@ -2,30 +2,38 @@
 # script: probing script
 # date: Aug 2020
 # dependency: run stp installation script ./stpinstall.sh 
-# execute : stap begin.stp -v
+# execute : stap -v begin.stp <count-arg> 
 # 
 
-global count
+global count, var
+
+#global var
 
 probe begin
 	{
+		var = $1
 		printf ("Begin stript\n")
 	}
 
+
+
 # printing timer statement every 3 sec
+
 
 probe timer.s(3)
         {
-		if (count == 3)
+		if (count == var)   #user input
 			exit ()
 		else
 			print("\ncounter ~> ", count)
 			count ++
         }
 
+
+
 probe end
         {
-                printf ("\nEnd script")
+                printf ("\nEnd script\n")
         }
 
 #EOF
