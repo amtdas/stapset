@@ -1,0 +1,32 @@
+#
+# Prints the current executable names, counts while performing vfs read 
+# execute : stap -v vfsread.stp
+#
+
+global rds
+
+probe vfs.read
+{
+	rds[execname()] ++   # rds[] array with executable as index
+}
+
+probe timer.s(3) {
+	# the default way to count rds[] array
+	# foreach (count in rds)
+	# 
+	# could rds[] array in decending order wrt counts
+	# occured and with limit of 1top 10 executables.
+	foreach (count in rds- limit 10)
+		printf("%s : %d \n", count, rds[count])
+		printf("\n====\n")
+	
+	if(["curl"] in rds) {
+		# execute 'curl http://localhost:80'
+		# curl dedection is printed.
+		 
+			printf("Curl read detected\n")
+			#exit()
+		}
+
+
+}
