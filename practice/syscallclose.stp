@@ -1,0 +1,29 @@
+#
+# Systemtap script author : amtdas
+# Sample for all open and close executables, pids, cpuno
+# Date Aug 2020
+#
+
+probe begin {
+	printf ("%18s %15s %15s %15s %15s\n",
+		"PS", "PID", "CPUNO", "FUNCTION", "RETURN")
+}
+
+probe syscall.open, syscall.close {
+	# execname()    returns the current executable program
+	# pid()         return process id of executables
+	# cpu()         returns cpu number its running
+	# probefun()    return probing function
+
+	printf ("\n%18s %15d %15d %15s",
+		execname(), pid(), cpu(), probefunc())
+}
+
+probe syscall.open.return, syscall.close.return {
+	# syscall returns error code for all open files 
+	# Negetive return value means error
+	printf ("%15d", $return)
+}
+
+#EOF
+
