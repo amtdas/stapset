@@ -1,0 +1,30 @@
+#
+# Systemtap script author : amtdas
+# Sample for all open executables, pids, cpuno
+# Date Aug 2020
+#
+
+probe begin {
+	printf ("%18s %15s %15s %15s %15s %15s\n",
+		"PS", "PID", "CPUNO", "FUNCTION", "MODULE", "RETURN")
+}
+
+probe syscall.open {
+	# execname()    returns the current executable program
+	# pid()         return process id of executables
+	# cpu()         returns cpu number its running
+	# probefun()    return probing function
+	# probemod()	accessed module name in system
+
+	printf ("\n%18s %15d %15d %15s %15s",
+		execname(), pid(), cpu(), probefunc(), probemod())
+}
+
+probe syscall.open.return {
+	# syscall returns error code for all open files 
+	# Negetive return value means error
+	printf ("%15d", $return)
+}
+
+#EOF
+
