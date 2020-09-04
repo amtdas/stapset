@@ -1,0 +1,21 @@
+#
+# Detials: Probe with target pid  
+# Execute : #stap -v systarget.stp -x <PID>
+# 
+
+global counter
+
+probe begin {
+	printf("Printing function calls and counter\n")
+	counter = 0
+}
+
+# 'name' identifies the syscall function name
+
+probe syscall.* {
+	if (pid() == target())
+		print("%d - %s\n", counter, name)
+		counter ++
+}
+
+#EOF
